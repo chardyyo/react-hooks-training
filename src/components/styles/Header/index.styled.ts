@@ -10,7 +10,9 @@ export const Header = styled.header`
 `;
 
 export const AppName = styled.div`
-  font-weight: bold;
+  color: #f65261;
+  font-size: 1.5em;
+  font-weight: medium;
 `;
 
 export const AppSearch = styled.div`
