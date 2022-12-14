@@ -11,10 +11,14 @@ const Home: React.FC = () => {
   );
 
   React.useEffect(() => {
-    console.log("I am here...");
-    fetchPopularMovies().then((movies: MovieListResponse) => {
-      setMovies(movies);
-    });
+    const fetchMovies = async () => {
+      const movies = await fetchPopularMovies();
+      if (movies) {
+        setMovies(movies);
+      }
+    };
+
+    fetchMovies();
   }, []);
 
   return (
