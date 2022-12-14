@@ -1,10 +1,8 @@
-import { MovieDetailsResponse, MovieListResponse } from "./../types/movie";
+import { MovieDetailsResponse, MovieListResponse } from "../types/movie";
 import React from "react";
 import { fetchMovies, fetchMovieDetails } from "../services/http";
 
 const API_KEY = import.meta.env.VITE_MOVIE_DB_API_KEY;
-
-type CustomMethodProps = {};
 
 export default () => {
   const fetchPopularMovies = React.useCallback(async () => {

@@ -1,17 +1,19 @@
 import React from "react";
-import useFetchMovie from "../../../hooks/useFetchMovie";
+import { Link } from "react-router-dom";
 import { MovieListResponse } from "../../../types/movie";
+import useMovieService from "../../../hooks/useMovieService";
 
 const Home: React.FC = () => {
-  const { fetchPopularMovies } = useFetchMovie();
+  const { fetchPopularMovies } = useMovieService();
 
   const [movies, setMovies] = React.useState<MovieListResponse>(
     {} as MovieListResponse
   );
 
   React.useEffect(() => {
-    fetchPopularMovies().then((list) => {
-      setMovies(list);
+    console.log("I am here...");
+    fetchPopularMovies().then((movies: MovieListResponse) => {
+      setMovies(movies);
     });
   }, []);
 
@@ -22,7 +24,7 @@ const Home: React.FC = () => {
           {movies?.results?.map((movie) => {
             return (
               <li key={movie?.id}>
-                <a href={`movies/${movie?.id}`}>{movie?.original_title}</a>
+                <Link to={`movies/${movie?.id}`}>{movie?.original_title}</Link>
               </li>
             );
           })}
