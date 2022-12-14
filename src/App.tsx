@@ -2,7 +2,11 @@ import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Footer } from "./components/styles/Footer/index.styled";
 import { GlobalStyles } from "./components/styles/Global";
-import { Header } from "./components/styles/Header/index.styled";
+import {
+  AppName,
+  AppSearch,
+  Header,
+} from "./components/styles/Header/index.styled";
 
 const HomePage = React.lazy(() => import("./views/pages/Home"));
 const MovieDetailsPage = React.lazy(() => import("./views/pages/Movie"));
@@ -11,7 +15,10 @@ function App() {
   return (
     <React.Fragment>
       <GlobalStyles />
-      <Header>netflixroulette</Header>
+      <Header>
+        <AppName>netflixroulette</AppName>
+        <AppSearch>Search</AppSearch>
+      </Header>
       <Routes>
         <Route
           index
