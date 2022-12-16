@@ -4,7 +4,7 @@ const defaultState = {
   movies: [] as Movie[],
 };
 
-const appReducer = (state = defaultState, action: any) => {
+const moviesReducer = (state = defaultState, action: any) => {
   switch (action.type) {
     case "movies/list":
       return {
@@ -27,4 +27,4 @@ const appReducer = (state = defaultState, action: any) => {
   }
 };
 
-export default appReducer;
+export default moviesReducer;
