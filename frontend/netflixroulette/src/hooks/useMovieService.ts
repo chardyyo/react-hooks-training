@@ -1,7 +1,6 @@
 import React from "react";
 import { fetchMovie, fetchMovies } from "../services/http";
 
-const API_KEY = import.meta.env.VITE_MOVIE_DB_API_KEY;
 const BASE_URL = "http://localhost:4000";
 
 export default () => {
