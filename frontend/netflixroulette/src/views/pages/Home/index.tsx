@@ -1,31 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import useMovieService from "../../../hooks/useMovieService";
 import {
   Card,
   CardBody,
   CardContainer,
   CardTitle,
 } from "../../../components/styles/Card/index.styled";
-import { MovieListResponse } from "../../../types/movie";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { getMovies, moviesSelector } from "../../../features/movie/slice";
 
 const Home: React.FC = () => {
-  const { fetchAllMovies } = useMovieService();
-
-  const [movies, setMovies] = React.useState<MovieListResponse>(
-    {} as MovieListResponse
-  );
+  const { movies } = useAppSelector(moviesSelector);
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    const fetchMovies = async () => {
-      const movieList = await fetchAllMovies();
-      if (movieList) {
-        setMovies(movieList);
-      }
-    };
+    dispatch(getMovies());
+  }, [dispatch]);
 
-    fetchMovies();
-  }, []);
+  console.log("Movies: ", movies);
 
   return (
     <React.Fragment>
