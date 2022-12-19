@@ -52,7 +52,7 @@ const Home: React.FC = () => {
                     {m?.overview}
                   </p>
                   <span>
-                    <strong>Rating:</strong>
+                    <strong>Rating: </strong>
                     {m?.vote_average}
                   </span>
                 </CardBody>
