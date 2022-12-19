@@ -64,6 +64,18 @@ export const movieSlice = createSlice({
         data: sortedMovies,
       };
     },
+    sortByRating: (state, action) => {
+      const sortedMovies: Data[] = action.payload?.data
+        .slice()
+        .sort((a: Data, b: Data) => {
+          return b?.vote_average - a?.vote_average;
+        });
+
+      state.movies = {
+        ...state.movies,
+        data: sortedMovies,
+      };
+    },
   },
   extraReducers(builder) {
     builder
