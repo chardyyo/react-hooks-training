@@ -15,22 +15,28 @@ import movieSlice, {
 const Home: React.FC = () => {
   const { movies } = useAppSelector(moviesSelector);
   const dispatch = useAppDispatch();
-  const { sortByReleaseDate, sortByRating } = movieSlice.actions;
+  const { sortMoviesBy } = movieSlice.actions;
 
   React.useEffect(() => {
     dispatch(getMovies());
   }, [dispatch]);
 
+  const handleSortingByReleaseDate = () => {
+    dispatch(sortMoviesBy("release_date"));
+  };
+
+  const handleSortingByRating = () => {
+    dispatch(sortMoviesBy("vote_average"));
+  };
+
   return (
     <React.Fragment>
       <div className="container">
         <div className="btn-group">
-          <button onClick={() => dispatch(sortByReleaseDate(movies))}>
+          <button onClick={handleSortingByReleaseDate}>
             Sort by release date
           </button>
-          <button onClick={() => dispatch(sortByRating(movies))}>
-            Sort by rating
-          </button>
+          <button onClick={handleSortingByRating}>Sort by rating</button>
         </div>
         {movies?.data?.map((m, idx) => {
           return (
