@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Data, Movie, MovieListResponse } from "../../types/movie";
 import { fetchMovie, fetchMovies } from "../../services/http";
 import { RootState } from "../../store";
+import { sortByKey } from "./helper";
 
 const URL = "http://localhost:4000/movies";
 
@@ -46,34 +47,14 @@ export const movieSlice = createSlice({
   name: "movies",
   initialState,
   reducers: {
-    sortByReleaseDate: (state, action) => {
-      const sortedMovies: Data[] = action.payload?.data
-        .slice()
-        .sort((a: Data, b: Data) => {
-          if (a?.release_date > b?.release_date) {
-            return 1;
-          }
-          if (a?.release_date < b?.release_date) {
-            return -1;
-          }
-          return 0;
-        });
+    sortMoviesBy: (state, action) => {
+      const sortedMovie: Data[] = state.movies?.data
+        ?.slice()
+        .sort(sortByKey(action.payload));
 
       state.movies = {
         ...state.movies,
-        data: sortedMovies,
-      };
-    },
-    sortByRating: (state, action) => {
-      const sortedMovies: Data[] = action.payload?.data
-        .slice()
-        .sort((a: Data, b: Data) => {
-          return b?.vote_average - a?.vote_average;
-        });
-
-      state.movies = {
-        ...state.movies,
-        data: sortedMovies,
+        data: sortedMovie,
       };
     },
   },
