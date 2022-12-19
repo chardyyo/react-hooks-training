@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Movie, MovieListResponse } from "../../types/movie";
+import { Data, Movie, MovieListResponse } from "../../types/movie";
 import { fetchMovie, fetchMovies } from "../../services/http";
 import { RootState } from "../../store";
 
@@ -45,7 +45,26 @@ export const getMovie = createAsyncThunk(
 export const movieSlice = createSlice({
   name: "movies",
   initialState,
-  reducers: {},
+  reducers: {
+    sortByReleaseDate: (state, action) => {
+      const sortedMovies: Data[] = action.payload?.data
+        .slice()
+        .sort((a: Data, b: Data) => {
+          if (a?.release_date > b?.release_date) {
+            return 1;
+          }
+          if (a?.release_date < b?.release_date) {
+            return -1;
+          }
+          return 0;
+        });
+
+      state.movies = {
+        ...state.movies,
+        data: sortedMovies,
+      };
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getMovies.pending, (state) => {
