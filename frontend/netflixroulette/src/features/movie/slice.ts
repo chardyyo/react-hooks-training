@@ -48,13 +48,13 @@ export const movieSlice = createSlice({
   initialState,
   reducers: {
     sortMoviesBy: (state, action) => {
-      const sortedMovie: Data[] = state.movies?.data
+      const sortedMovies: Data[] = state.movies?.data
         ?.slice()
         .sort(sortByKey(action.payload));
 
       state.movies = {
         ...state.movies,
-        data: sortedMovie,
+        data: sortedMovies,
       };
     },
   },
