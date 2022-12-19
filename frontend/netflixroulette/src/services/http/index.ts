@@ -11,6 +11,9 @@ const fetchMovies = async (URL: string): Promise<MovieListResponse> => {
   try {
     const response = await fetch(URL, {
       method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
     });
     const data: MovieListResponse = await response.json();
     if (data) {
