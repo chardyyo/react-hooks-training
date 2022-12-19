@@ -17,8 +17,6 @@ const Home: React.FC = () => {
     dispatch(getMovies());
   }, [dispatch]);
 
-  console.log("Movies: ", movies);
-
   return (
     <React.Fragment>
       <div className="container">
