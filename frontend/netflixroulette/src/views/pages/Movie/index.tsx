@@ -1,25 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import useMovieService from "../../../hooks/useMovieService";
+import { getMovie, moviesSelector } from "../../../features/movie/slice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { Movie } from "../../../types/movie";
 
 const MovieDetails: React.FC = () => {
   const { id } = useParams();
-  const { fetchMovie } = useMovieService();
-
-  const [movie, setMovie] = React.useState<Movie>({} as Movie);
+  const { movie } = useAppSelector(moviesSelector);
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    const fetchSingleMovie = async (id: string) => {
-      const m = await fetchMovie(id);
-      if (m) {
-        setMovie(m);
-      }
-    };
-
-    fetchSingleMovie(id as string);
-  }, []);
+    dispatch(getMovie(id as string));
+  }, [dispatch]);
 
   return (
     <React.Fragment>
