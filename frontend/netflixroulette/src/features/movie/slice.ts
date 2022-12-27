@@ -57,6 +57,18 @@ export const movieSlice = createSlice({
         data: sortedMovies,
       };
     },
+    filterByGenre: (state, action) => {
+      const filteredMovie: Data[] = state.movies?.data
+        ?.slice()
+        .filter((movie) => {
+          return movie?.genres?.indexOf(action.payload) > -1;
+        });
+
+      state.movies = {
+        ...state.movies,
+        data: filteredMovie,
+      };
+    },
   },
   extraReducers(builder) {
     builder
