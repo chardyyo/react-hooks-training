@@ -15,7 +15,7 @@ import movieSlice, {
 const Home: React.FC = () => {
   const { movies } = useAppSelector(moviesSelector);
   const dispatch = useAppDispatch();
-  const { sortMoviesBy } = movieSlice.actions;
+  const { sortMoviesBy, filterByGenre } = movieSlice.actions;
 
   React.useEffect(() => {
     dispatch(getMovies());
@@ -29,6 +29,10 @@ const Home: React.FC = () => {
     dispatch(sortMoviesBy("vote_average"));
   };
 
+  const handleFiltering = () => {
+    dispatch(filterByGenre("Fantasy"));
+  };
+
   return (
     <React.Fragment>
       <div className="container">
@@ -37,6 +41,7 @@ const Home: React.FC = () => {
             Sort by release date
           </button>
           <button onClick={handleSortingByRating}>Sort by rating</button>
+          <button onClick={handleFiltering}>Filter by genre</button>
         </div>
         {movies?.data?.map((m, idx) => {
           return (
