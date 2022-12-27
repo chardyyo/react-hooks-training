@@ -1,9 +1,20 @@
-import { configureStore, Action, ThunkAction } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  Action,
+  ThunkAction,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import { api } from "../features/movie/service";
 import movieSlice from "../features/movie/slice";
 
 export const store = configureStore({
   reducer: {
+    [api.reducerPath]: api.reducer,
     movies: movieSlice.reducer,
+  },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(api.middleware);
   },
 });
 
@@ -15,3 +26,5 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
+
+setupListeners(store.dispatch);

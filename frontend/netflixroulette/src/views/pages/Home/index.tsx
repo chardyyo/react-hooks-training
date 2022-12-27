@@ -6,42 +6,59 @@ import {
   CardContainer,
   CardTitle,
 } from "../../../components/styles/Card/index.styled";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import movieSlice, {
-  getMovies,
-  moviesSelector,
-} from "../../../features/movie/slice";
+import { api } from "../../../features/movie/service";
 
 const Home: React.FC = () => {
-  const { movies } = useAppSelector(moviesSelector);
-  const dispatch = useAppDispatch();
-  const { sortMoviesBy, filterByGenre } = movieSlice.actions;
+  const [fetchParams, setFetchParams] = React.useState<any>({
+    limit: 15,
+    criteria: "",
+    order: "desc",
+  });
 
-  React.useEffect(() => {
-    dispatch(getMovies());
-  }, [dispatch]);
+  const {
+    data: movies,
+    error,
+    isLoading,
+    isFetching,
+  } = api.useGetMoviesQuery({
+    limit: 15,
+    criteria: fetchParams?.criteria,
+    order: fetchParams?.order,
+  });
 
-  const handleSortingByReleaseDate = () => {
-    dispatch(sortMoviesBy("release_date"));
-  };
+  if (isLoading) {
+    return <span>Loading...</span>;
+  }
 
-  const handleSortingByRating = () => {
-    dispatch(sortMoviesBy("vote_average"));
-  };
-
-  const handleFiltering = () => {
-    dispatch(filterByGenre("Fantasy"));
-  };
+  console.log("Filtered movies: ", movies);
 
   return (
     <React.Fragment>
       <div className="container">
         <div className="btn-group">
-          <button onClick={handleSortingByReleaseDate}>
+          <button
+            onClick={() =>
+              setFetchParams({
+                limit: 15,
+                criteria: "release_date",
+                order: "desc",
+              })
+            }
+          >
             Sort by release date
           </button>
-          <button onClick={handleSortingByRating}>Sort by rating</button>
-          <button onClick={handleFiltering}>Filter by genre</button>
+          <button
+            onClick={() =>
+              setFetchParams({
+                limit: 15,
+                criteria: "vote_average",
+                order: "desc",
+              })
+            }
+          >
+            Sort by rating
+          </button>
+          <button onClick={() => console.log("OK")}>Filter by genre</button>
         </div>
         {movies?.data?.map((m, idx) => {
           return (
