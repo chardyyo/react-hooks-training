@@ -1,3 +1,4 @@
+import { Formik, Field, Form, FormikHelpers } from "formik";
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -7,6 +8,16 @@ import {
   CardTitle,
 } from "../../../components/styles/Card/index.styled";
 import { api } from "../../../features/movie/service";
+
+interface Values {
+  title: string;
+  releaseDate: string;
+  movieURL: string;
+  rating: string;
+  genre: string;
+  runtime: string;
+  overview: string;
+}
 
 const Home: React.FC = () => {
   const [fetchParams, setFetchParams] = React.useState<any>({
@@ -39,6 +50,68 @@ const Home: React.FC = () => {
   return (
     <React.Fragment>
       <div className="container">
+        <Formik
+          initialValues={{
+            title: "",
+            releaseDate: "",
+            movieURL: "",
+            rating: "",
+            genre: "",
+            runtime: "",
+            overview: "",
+          }}
+          onSubmit={(
+            values: Values,
+            { setSubmitting }: FormikHelpers<Values>
+          ) => {
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              setSubmitting(false);
+            }, 500);
+          }}
+        >
+          <Form>
+            <label htmlFor="title">Movie Title</label>
+            <Field id="title" name="title" placeholder="Moana" />
+
+            <label htmlFor="releaseDate">Release Date</label>
+            <Field
+              id="releaseDate"
+              name="releaseDate"
+              placeholder="Select Date"
+            />
+
+            <label htmlFor="movieURL">Movie URL</label>
+            <Field
+              id="movieURL"
+              name="movieURL"
+              placeholder="https://"
+              type="text"
+            />
+
+            <label htmlFor="rating">Rating</label>
+            <Field id="rating" name="rating" placeholder="7.8" />
+
+            <label htmlFor="genre">Genre</label>
+            <Field id="genre" name="genre" placeholder="Select Genre" />
+
+            <label htmlFor="runtime">Runtime</label>
+            <Field id="runtime" name="runtime" placeholder="minutes" />
+
+            <label htmlFor="overview">Overview</label>
+            <Field
+              as="textarea"
+              id="overview"
+              name="overview"
+              placeholder="Movie description"
+            />
+
+            <button type="submit">Submit</button>
+          </Form>
+        </Formik>
+      </div>
+
+      <div className="container">
         <div className="btn-group">
           <button
             onClick={() =>
@@ -62,17 +135,6 @@ const Home: React.FC = () => {
           >
             Sort by rating
           </button>
-          {/* <button
-            onClick={() =>
-              setFetchParams({
-                limit: 15,
-                searchBy: "genres",
-                genre: "horror",
-              })
-            }
-          >
-            Filter by genre
-          </button> */}
           <select
             title="movieFilter"
             onChange={(event) => {
