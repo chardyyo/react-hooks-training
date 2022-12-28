@@ -1,0 +1,16 @@
+Branches:
+
+main = module 6 (Hooks)
+
+
+Running the app (locally) for frontend:
+
+cd frontend/netflixroulette
+yarn
+yarn dev
+
+Running the app (locally) for API/backend:
+
+cd MoviesAPI.ReactJS
+npm install
+npm run watch
