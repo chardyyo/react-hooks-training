@@ -10,17 +10,29 @@ export const api = createApi({
     // MovieListResponse represents the return type of this query,
     // `any` represents the argument that gets passed if we call this query.
     getMovies: build.query<MovieListResponse, any>({
-      query: ({ limit, criteria, order }) => {
+      query: ({ limit, criteria, order, searchBy, genre }) => {
         // the URL key is the path params that gets appended to the `baseUrl`.
         // http://localhost:4000/movies
+        let requestURL = "movies?limit=15";
+
         if (criteria) {
-          return {
-            url: `movies?limit=${limit}&sortBy=${criteria}&sortOrder=${order}`,
-          };
+          requestURL = `${requestURL}&sortBy=${criteria}`;
+        }
+
+        if (order) {
+          requestURL = `${requestURL}&sortOrder=${order}`;
+        }
+
+        if (searchBy) {
+          requestURL = `${requestURL}&searchBy=${searchBy}`;
+        }
+
+        if (genre) {
+          requestURL = `${requestURL}&filter=${genre}`;
         }
 
         return {
-          url: `movies?limit=${limit}`,
+          url: requestURL,
         };
       },
       providesTags: ["Movies"],

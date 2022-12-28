@@ -12,8 +12,12 @@ const Home: React.FC = () => {
   const [fetchParams, setFetchParams] = React.useState<any>({
     limit: 15,
     criteria: "",
+    searchBy: "",
     order: "desc",
+    genre: "",
   });
+
+  const [selectedFilter, setSelectedFilter] = React.useState<string>("");
 
   const {
     data: movies,
@@ -24,13 +28,13 @@ const Home: React.FC = () => {
     limit: 15,
     criteria: fetchParams?.criteria,
     order: fetchParams?.order,
+    searchBy: fetchParams?.searchBy,
+    genre: fetchParams?.genre,
   });
 
   if (isLoading) {
     return <span>Loading...</span>;
   }
-
-  console.log("Filtered movies: ", movies);
 
   return (
     <React.Fragment>
@@ -58,7 +62,42 @@ const Home: React.FC = () => {
           >
             Sort by rating
           </button>
-          <button onClick={() => console.log("OK")}>Filter by genre</button>
+          {/* <button
+            onClick={() =>
+              setFetchParams({
+                limit: 15,
+                searchBy: "genres",
+                genre: "horror",
+              })
+            }
+          >
+            Filter by genre
+          </button> */}
+          <select
+            title="movieFilter"
+            onChange={(event) => {
+              event?.preventDefault();
+              const selectedGenre = event?.target?.value;
+              setSelectedFilter(selectedGenre);
+
+              setFetchParams({
+                limit: 15,
+                searchBy: "genres",
+                genre: selectedGenre,
+              });
+            }}
+          >
+            {[
+              "Horror",
+              "Thriller",
+              "Science Fiction",
+              "Romance",
+              "Comedy",
+              "Drama",
+            ].map((genre, id) => {
+              return <option key={id}>{genre}</option>;
+            })}
+          </select>
         </div>
         {movies?.data?.map((m, idx) => {
           return (
