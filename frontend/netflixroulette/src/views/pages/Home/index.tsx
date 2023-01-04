@@ -66,10 +66,7 @@ const Home: React.FC = () => {
             runtime: 0,
             overview: "",
           }}
-          onSubmit={(
-            values: Values,
-            { setSubmitting }: FormikHelpers<Values>
-          ) => {
+          onSubmit={(values: Values) => {
             setTimeout(() => {
               addMovie({
                 title: values?.title,
@@ -83,7 +80,6 @@ const Home: React.FC = () => {
                 revenue: 445435700,
                 runtime: 128,
               });
-              setSubmitting(false);
             }, 500);
           }}
         >
