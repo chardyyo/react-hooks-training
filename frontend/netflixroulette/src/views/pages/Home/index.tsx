@@ -1,4 +1,4 @@
-import { Formik, Field, Form, FormikHelpers } from "formik";
+import { Formik, Field, Form, FormikHelpers, FieldArray } from "formik";
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -11,11 +11,12 @@ import { api } from "../../../features/movie/service";
 
 interface Values {
   title: string;
+  tagline: string;
   releaseDate: string;
   movieURL: string;
-  rating: string;
-  genre: string;
-  runtime: string;
+  rating: number;
+  genres: string[];
+  runtime: number;
   overview: string;
 }
 
@@ -43,6 +44,10 @@ const Home: React.FC = () => {
     genre: fetchParams?.genre,
   });
 
+  // use mutation
+  const [addMovie, { isLoading: isUpdating, isSuccess, isUninitialized }] =
+    api.useCreateMovieMutation();
+
   if (isLoading) {
     return <span>Loading...</span>;
   }
@@ -53,11 +58,12 @@ const Home: React.FC = () => {
         <Formik
           initialValues={{
             title: "",
+            tagline: "",
             releaseDate: "",
             movieURL: "",
-            rating: "",
-            genre: "",
-            runtime: "",
+            rating: 0,
+            genres: ["Comedy", "Drama", "Romance"],
+            runtime: 0,
             overview: "",
           }}
           onSubmit={(
@@ -65,7 +71,18 @@ const Home: React.FC = () => {
             { setSubmitting }: FormikHelpers<Values>
           ) => {
             setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
+              addMovie({
+                title: values?.title,
+                tagline: values?.tagline,
+                vote_average: values?.rating,
+                vote_count: 6782,
+                release_date: values?.releaseDate,
+                poster_path: values?.movieURL,
+                overview: values?.overview,
+                budget: 30000000,
+                revenue: 445435700,
+                runtime: 128,
+              });
               setSubmitting(false);
             }, 500);
           }}
@@ -73,6 +90,9 @@ const Home: React.FC = () => {
           <Form>
             <label htmlFor="title">Movie Title</label>
             <Field id="title" name="title" placeholder="Moana" />
+
+            <label htmlFor="tagline">Movie Tagline</label>
+            <Field id="tagline" name="tagline" placeholder="Tagline" />
 
             <label htmlFor="releaseDate">Release Date</label>
             <Field
@@ -92,8 +112,8 @@ const Home: React.FC = () => {
             <label htmlFor="rating">Rating</label>
             <Field id="rating" name="rating" placeholder="7.8" />
 
-            <label htmlFor="genre">Genre</label>
-            <Field id="genre" name="genre" placeholder="Select Genre" />
+            <label htmlFor="genres">Genre</label>
+            <Field id="genres" name="genres" placeholder="Select Genre" />
 
             <label htmlFor="runtime">Runtime</label>
             <Field id="runtime" name="runtime" placeholder="minutes" />

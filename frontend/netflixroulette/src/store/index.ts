@@ -2,7 +2,6 @@ import {
   configureStore,
   Action,
   ThunkAction,
-  getDefaultMiddleware,
 } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { api } from "../features/movie/service";

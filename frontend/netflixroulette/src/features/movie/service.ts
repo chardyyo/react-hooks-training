@@ -20,7 +20,7 @@ export const api = createApi({
         }
 
         if (order) {
-          requestURL = `${requestURL}&sortOrder=${order}`;
+          requestURL = `${requestURL}&sortBy=release_date&sortOrder=${order}`;
         }
 
         if (searchBy) {
@@ -42,18 +42,20 @@ export const api = createApi({
       },
     }),
     // build.mutation are used for creating, updating, and deleting data.
-    // sortMovies: build.mutation<MovieListResponse, any>({
-    //   query: ({ criteria, order }) => ({
-    //     url: `movies?sortBy=${criteria}&sortOrder=${order}`,
-    //     method: "GET",
-    //     headers: {
-    //       Accept: "application/json",
-    //     },
-    //     validateStatus: (response, result) => {
-    //       // 304 Not Modified
-    //       return true;
-    //     },
-    //   }),
-    // }),
+    createMovie: build.mutation<MovieListResponse, any>({
+      query: (data) => ({
+        url: "movies",
+        method: "POST",
+        body: data,
+        headers: {
+          Accept: "application/json",
+        },
+        validateStatus: (response, result) => {
+          // 304 Not Modified
+          return true;
+        },
+      }),
+      invalidatesTags: [{ type: "Movies" }],
+    }),
   }),
 });
