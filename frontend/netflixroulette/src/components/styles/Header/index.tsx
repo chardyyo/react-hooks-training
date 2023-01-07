@@ -1,17 +1,15 @@
 import React from "react";
-import { AppBar, Toolbar } from "@mui/material";
+import styles from "./Header.module.scss";
+interface HeaderProps {
+  query?: string;
+}
 
-export const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ query }) => {
   return (
     <React.Fragment>
-      <header>
-        <AppBar>
-          <Toolbar>
-            <b>netflix</b>
-            roulette
-          </Toolbar>
-        </AppBar>
-      </header>
+      <header className={styles.header}></header>
     </React.Fragment>
   );
 };
+
+export default Header;

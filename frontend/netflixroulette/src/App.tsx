@@ -1,10 +1,11 @@
 import React, { Suspense } from "react";
-import "./styles/_main.scss";
+import styles from "./App.module.scss";
+import Header from "./components/styles/Header";
 
 function App() {
   return (
     <React.Fragment>
-      <h1>Hello World</h1>
+      <Header />
     </React.Fragment>
   );
 }
