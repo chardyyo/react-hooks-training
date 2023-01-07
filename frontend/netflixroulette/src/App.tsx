@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import styles from "./App.module.scss";
 import GenreFilter from "./components/Genres";
 import Header from "./components/Header";
+import SortMovie from "./components/SortMovie";
 
 function App() {
   return (
@@ -10,7 +11,9 @@ function App() {
       <main className={styles.container}>
         <div className={styles.controlBar}>
           <GenreFilter />
+          <SortMovie />
         </div>
+        <hr className={styles.hr} />
       </main>
     </React.Fragment>
   );

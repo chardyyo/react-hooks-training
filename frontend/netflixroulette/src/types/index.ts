@@ -24,11 +24,11 @@ export enum GenreFilters {
 }
 
 export enum SortFilters {
-  "release date" = "release_date",
-  "title" = "title",
-  "raiting" = "vote_average",
-  "popularity" = "vote_count",
-  "duration" = "runtime",
+  "RELEASE DATE" = "release_date",
+  "TITLE" = "title",
+  "RATING" = "vote_average",
+  "POPULARITY" = "vote_count",
+  "DURATION" = "runtime",
 }
 
 export type GenreQueries = keyof typeof GenreFilters;
