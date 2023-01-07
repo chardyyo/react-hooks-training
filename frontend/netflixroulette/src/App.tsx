@@ -9,7 +9,7 @@ function App() {
     <React.Fragment>
       <Header />
       <main className={styles.container}>
-        <div className={styles.controlBar}>
+        <div className={styles.controlsBar}>
           <GenreFilter />
           <SortMovie />
         </div>
