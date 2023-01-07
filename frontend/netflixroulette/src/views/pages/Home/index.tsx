@@ -6,7 +6,7 @@ import {
   CardBody,
   CardContainer,
   CardTitle,
-} from "../../../components/styles/Card/index.styled";
+} from "../../../components/Card/index.styled";
 import { api } from "../../../features/movie/service";
 
 interface Values {
