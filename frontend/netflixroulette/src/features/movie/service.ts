@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { MovieListResponse } from "../../types/movie";
+import { MovieListResponse, Movie } from "../../types/movie";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -38,6 +38,18 @@ export const api = createApi({
       providesTags: ["Movies"],
       // pick out data and prevent nested properties in a hook or selector.
       transformResponse: (response: MovieListResponse) => {
+        return response;
+      },
+    }),
+    getMovieById: build.query<Movie, string>({
+      query: (id) => {
+        return {
+          url: `movies/${id}`,
+        };
+      },
+      providesTags: ["Movies"],
+      // pick out data and prevent nested properties in a hook or selector.
+      transformResponse: (response: Movie) => {
         return response;
       },
     }),

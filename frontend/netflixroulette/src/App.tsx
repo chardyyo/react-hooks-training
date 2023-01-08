@@ -52,7 +52,9 @@ function App() {
           path="/movies/:id"
           element={
             <Suspense fallback={<Spinner />}>
-              <MovieDetails />
+              <MovieDetails
+                onClick={() => console.log("close movie details")}
+              />
             </Suspense>
           }
         ></Route>

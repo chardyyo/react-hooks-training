@@ -1,18 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import Spinner from "../../../components/Spinner";
+import { api } from "../../../features/movie/service";
 import { getMovie, moviesSelector } from "../../../features/movie/slice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { Movie } from "../../../types/movie";
 
-const MovieDetails: React.FC = () => {
+interface MovieDetailsProps {
+  onClick: () => void;
+}
+
+const MovieDetails: React.FC<MovieDetailsProps> = ({ onClick }) => {
   const { id } = useParams();
-  const { movie } = useAppSelector(moviesSelector);
-  const dispatch = useAppDispatch();
+  const {
+    data: movie,
+    isLoading,
+    isError,
+  } = api.useGetMovieByIdQuery(id as string);
 
-  React.useEffect(() => {
-    dispatch(getMovie(id as string));
-  }, [dispatch]);
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <>Something went wrong</>;
+  }
 
   return (
     <React.Fragment>
