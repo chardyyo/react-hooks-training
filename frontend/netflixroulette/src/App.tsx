@@ -7,6 +7,7 @@ import Spinner from "./components/Spinner";
 import { api } from "./features/movie/service";
 import { MovieListResponse } from "./types/movie";
 import Home from "./views/pages/Home";
+import MovieDetails from "./views/pages/Movie";
 import MovieList from "./views/pages/MovieList";
 
 function App() {
@@ -47,6 +48,15 @@ function App() {
             </Suspense>
           }
         ></Route>
+        <Route
+          path="/movies/:id"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <MovieDetails />
+            </Suspense>
+          }
+        ></Route>
+        <Route path="*" element={<span>Not found</span>}></Route>
       </Routes>
     </React.Fragment>
   );

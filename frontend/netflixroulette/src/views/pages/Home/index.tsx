@@ -20,7 +20,6 @@ const Home: React.FC<Props> = ({ loading, error, movies }) => {
           <SortMovie />
         </div>
         <hr className={styles.hr} />
-        {/* Movie listings */}
         <MovieList loading={loading} error={error} movies={movies} />
       </main>
     </React.Fragment>
