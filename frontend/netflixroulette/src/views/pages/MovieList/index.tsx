@@ -1,5 +1,6 @@
 import React, { MouseEvent } from "react";
 import Card from "../../../components/Card";
+import ContextMenu from "../../../components/Card/ContextMenu";
 import { MovieListResponse } from "../../../types/movie";
 import styles from "./MovieList.module.scss";
 
@@ -42,8 +43,6 @@ const MovieList: React.FC<MovieListProps> = ({ loading, error, movies }) => {
     return <>Loading</>;
   }
 
-  console.log("Has error: ", error);
-
   if (error) {
     return <span className={styles.error}>Something went wrong. {error}</span>;
   }
@@ -72,7 +71,14 @@ const MovieList: React.FC<MovieListProps> = ({ loading, error, movies }) => {
             );
           }
         )}
-        {showMenu ? <>Show context menu</> : null}
+        {showMenu ? (
+          <ContextMenu
+            onClose={handleCloseMenu}
+            coordinateX={coordinateX}
+            coordinateY={coordinateY}
+            id={id}
+          />
+        ) : null}
       </div>
     </React.Fragment>
   );

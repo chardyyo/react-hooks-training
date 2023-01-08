@@ -28,8 +28,6 @@ function App() {
     genre: fetchParams?.genre,
   });
 
-  console.log("You have an error: ", isError);
-
   return (
     <React.Fragment>
       <Header />
