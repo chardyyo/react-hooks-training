@@ -10,6 +10,11 @@ import {
   minutesToHours,
 } from "../../../utils/helpers";
 import styles from "./Movie.module.scss";
+import appStyles from "../../../App.module.scss";
+import GenreFilter from "../../../components/Genres";
+import SortMovie from "../../../components/SortMovie";
+import MovieList from "../MovieList";
+import { MovieListResponse } from "../../../types/movie";
 
 interface MovieDetailsProps {
   onClick: () => void;
@@ -22,6 +27,14 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ onClick }) => {
     isLoading,
     isError,
   } = api.useGetMovieByIdQuery(id as string);
+
+  const { data: movies } = api.useGetMoviesQuery({
+    limit: 15,
+    criteria: "",
+    order: "",
+    searchBy: "",
+    genre: "",
+  });
 
   if (isLoading) {
     return <Spinner />;
@@ -91,6 +104,18 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ onClick }) => {
           </div>
         </div>
       </div>
+      <section className={appStyles.container}>
+        <div className={appStyles.controlsBar}>
+          <GenreFilter />
+          <SortMovie />
+        </div>
+        <hr className={appStyles.hr} />
+        <MovieList
+          loading={isLoading}
+          error={isError}
+          movies={movies as MovieListResponse}
+        />
+      </section>
     </React.Fragment>
   );
 };

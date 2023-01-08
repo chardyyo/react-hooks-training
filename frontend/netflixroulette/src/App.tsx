@@ -7,6 +7,7 @@ import Home from "./views/pages/Home";
 import MovieDetails from "./views/pages/Movie";
 import styles from "./App.module.scss";
 import Title from "./components/Title";
+import MovieList from "./views/pages/MovieList";
 
 function App() {
   const [fetchParams, setFetchParams] = React.useState<any>({
