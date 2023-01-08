@@ -1,10 +1,12 @@
 import React, { Suspense } from "react";
-import styles from "./App.module.scss";
+import { Route, Routes } from "react-router-dom";
 import GenreFilter from "./components/Genres";
 import Header from "./components/Header";
 import SortMovie from "./components/SortMovie";
+import Spinner from "./components/Spinner";
 import { api } from "./features/movie/service";
 import { MovieListResponse } from "./types/movie";
+import Home from "./views/pages/Home";
 import MovieList from "./views/pages/MovieList";
 
 function App() {
@@ -31,19 +33,21 @@ function App() {
   return (
     <React.Fragment>
       <Header />
-      <main className={styles.container}>
-        <div className={styles.controlsBar}>
-          <GenreFilter />
-          <SortMovie />
-        </div>
-        <hr className={styles.hr} />
-        {/* Movie listings */}
-        <MovieList
-          loading={isLoading}
-          error={isError}
-          movies={movies as MovieListResponse}
-        />
-      </main>
+      <Routes>
+        <Route
+          index
+          path="/"
+          element={
+            <Suspense fallback={<Spinner />}>
+              <Home
+                loading={isLoading}
+                error={isError}
+                movies={movies as MovieListResponse}
+              />
+            </Suspense>
+          }
+        ></Route>
+      </Routes>
     </React.Fragment>
   );
 }
