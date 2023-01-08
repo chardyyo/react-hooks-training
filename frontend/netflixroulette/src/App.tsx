@@ -5,6 +5,8 @@ import { api } from "./features/movie/service";
 import { MovieListResponse } from "./types/movie";
 import Home from "./views/pages/Home";
 import MovieDetails from "./views/pages/Movie";
+import styles from "./App.module.scss";
+import Title from "./components/Title";
 
 function App() {
   const [fetchParams, setFetchParams] = React.useState<any>({
@@ -55,6 +57,9 @@ function App() {
         ></Route>
         <Route path="*" element={<span>Not found</span>}></Route>
       </Routes>
+      <footer className={styles.footer}>
+        <Title />
+      </footer>
     </React.Fragment>
   );
 }
