@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../../../App.module.scss";
 import GenreFilter from "../../../components/Genres";
+import Header from "../../../components/Header";
 import SortMovie from "../../../components/SortMovie";
 import { MovieListResponse } from "../../../types/movie";
 import MovieList from "../MovieList";
@@ -14,6 +15,7 @@ interface Props {
 const Home: React.FC<Props> = ({ loading, error, movies }) => {
   return (
     <React.Fragment>
+      <Header />
       <main className={styles.container}>
         <div className={styles.controlsBar}>
           <GenreFilter />

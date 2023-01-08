@@ -1,14 +1,10 @@
 import React, { Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
-import GenreFilter from "./components/Genres";
-import Header from "./components/Header";
-import SortMovie from "./components/SortMovie";
+import { Route, Routes, useParams } from "react-router-dom";
 import Spinner from "./components/Spinner";
 import { api } from "./features/movie/service";
 import { MovieListResponse } from "./types/movie";
 import Home from "./views/pages/Home";
 import MovieDetails from "./views/pages/Movie";
-import MovieList from "./views/pages/MovieList";
 
 function App() {
   const [fetchParams, setFetchParams] = React.useState<any>({
@@ -33,7 +29,6 @@ function App() {
 
   return (
     <React.Fragment>
-      <Header />
       <Routes>
         <Route
           index
