@@ -2,6 +2,7 @@ import React, { MouseEvent, KeyboardEvent } from "react";
 import useQueryString from "../../hooks/useQueryString";
 import { SEARCH_PARAMS } from "../../types";
 import { extractYear } from "../../utils/helpers";
+import Poster from "../Poster";
 import styles from "./Card.module.scss";
 
 interface CardProps {
@@ -50,7 +51,7 @@ const Card: React.FC<CardProps> = ({
         role="button"
         tabIndex={0}
       >
-        {/* Poster path */}
+        <Poster url={poster_path} className={styles.poster} />
         <div className={styles.info}>
           <div className={styles.info__left}>
             <span className={styles.info__title}>{title}</span>
