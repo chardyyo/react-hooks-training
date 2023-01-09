@@ -6,7 +6,7 @@ import { SORT_BY_FILTERS } from "../../utils/constants";
 import styles from "./SortMovie.module.scss";
 
 interface SortProps {
-  selected?: SortQueries;
+  selected: SortQueries;
 }
 
 const SortMovie: React.FC<SortProps> = ({ selected }) => {
@@ -26,7 +26,7 @@ const SortMovie: React.FC<SortProps> = ({ selected }) => {
   return (
     <React.Fragment>
       <div className={styles.sorting}>
-        <span className={styles.sorting__label}>Sort By:</span>
+        <span className={styles.sorting__label}>Sort By</span>
         <div ref={toggleRef} className={styles.dropDown}>
           <input
             className={
@@ -41,17 +41,19 @@ const SortMovie: React.FC<SortProps> = ({ selected }) => {
           />
           {showElement && (
             <ul className={styles.dropDown__list}>
-              {SORT_BY_FILTERS.map((option, idx: number) => (
-                <li key={idx}>
-                  <button
-                    type="button"
-                    className={styles.dropDown__option}
-                    onClick={handleSelect(option)}
-                  >
-                    {option}
-                  </button>
-                </li>
-              ))}
+              {SORT_BY_FILTERS.map((option) => {
+                return (
+                  <li key={option}>
+                    <button
+                      type="button"
+                      className={styles.dropDown__option}
+                      onClick={handleSelect(option)}
+                    >
+                      {option}
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>

@@ -12,13 +12,20 @@ import { MovieListResponse } from "./types/movie";
 import MovieDetails from "./views/pages/Movie";
 import styles from "./App.module.scss";
 import Title from "./components/Title";
-import { PATHS, SEARCH_PARAMS } from "./types";
+import {
+  GenreQueries,
+  PATHS,
+  RequestParams,
+  SEARCH_PARAMS,
+  SortQueries,
+} from "./types";
 import Header from "./components/Header";
 import GenreFilter from "./components/Genres";
 import SortMovie from "./components/SortMovie";
 import ErrorBoundary from "./components/ErrorBoundary";
 import MovieForm from "./components/Form";
 import { ADD_FORM, EDIT_FORM } from "./utils/constants";
+import { hasGenre, hasSortBy } from "./utils/helpers";
 
 type LocationState = null | {
   backgroundLocation: Location;
@@ -35,10 +42,26 @@ function App() {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const query = searchParams.get(SEARCH_PARAMS.QUERY);
-  const genre = searchParams.get(SEARCH_PARAMS.GENRE);
-  const sortBy = searchParams.get(SEARCH_PARAMS.SORT_BY);
+  const query = searchParams.get(SEARCH_PARAMS.QUERY) as string;
+  const genre = searchParams.get(SEARCH_PARAMS.GENRE) as GenreQueries;
+  const sortBy = searchParams.get(SEARCH_PARAMS.SORT_BY) as SortQueries;
   const activeMovieId = searchParams.get(SEARCH_PARAMS.MOVIE);
+
+  React.useEffect(() => {
+    const requestParams: Partial<RequestParams> = {};
+
+    if (query) {
+      requestParams.query = query;
+    }
+
+    if (hasGenre(genre)) {
+      requestParams.genre = genre;
+    }
+
+    if (hasSortBy(sortBy)) {
+      requestParams.sortBy = sortBy;
+    }
+  }, [query, genre, sortBy]);
 
   const {
     data: movies,
@@ -90,10 +113,10 @@ function App() {
                 <Header />
               )}
               <Suspense fallback={<Spinner />}>
-                <section className={styles.container}>
+                <main className={styles.container}>
                   <div className={styles.controlsBar}>
-                    <GenreFilter />
-                    <SortMovie />
+                    <GenreFilter selected={genre ? genre : "all"} />
+                    <SortMovie selected={sortBy ? sortBy : "POPULARITY"} />
                   </div>
                   <hr className={styles.hr} />
                   <MovieList
@@ -101,7 +124,7 @@ function App() {
                     error={isError}
                     movies={movies as MovieListResponse}
                   />
-                </section>
+                </main>
                 <footer className={styles.footer}>
                   <Title />
                 </footer>
