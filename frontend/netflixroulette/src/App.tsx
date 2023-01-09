@@ -12,7 +12,6 @@ import { MovieListResponse } from "./types/movie";
 import MovieDetails from "./views/pages/Movie";
 import styles from "./App.module.scss";
 import Title from "./components/Title";
-import MovieList from "./views/pages/MovieList";
 import { PATHS, SEARCH_PARAMS } from "./types";
 import Header from "./components/Header";
 import GenreFilter from "./components/Genres";
@@ -25,6 +24,7 @@ type LocationState = null | {
   backgroundLocation: Location;
 };
 
+const MovieList = React.lazy(() => import("./views/pages/MovieList"));
 const DeleteForm = React.lazy(() => import("./components/Form/Delete"));
 const EditorForm = React.lazy(() => import("./components/Form"));
 
