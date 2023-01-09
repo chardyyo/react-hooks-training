@@ -69,5 +69,16 @@ export const api = createApi({
       }),
       invalidatesTags: [{ type: "Movies" }],
     }),
+    updateMovie: build.mutation<any, any>({
+      query: (data) => ({
+        url: "movies",
+        method: "PUT",
+        body: data,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }),
+    }),
   }),
 });

@@ -14,13 +14,13 @@ import InputForm from "./Input";
 import Spinner from "../Spinner";
 import EditorTextarea from "./TextArea";
 import { MovieListResponse } from "../../types/movie";
+import { api } from "../../features/movie/service";
 
 type PropsFromRedux = {
   movies: MovieListResponse;
 };
 
 type OwnProps = {
-  onSubmit: (movie: Movie) => void;
   variant: FormVariant;
 };
 
@@ -30,7 +30,6 @@ const { ERROR, SUCCESS, INITIAL } = STATUSES;
 
 const MovieForm: React.FC<FormProps> = ({
   movies,
-  onSubmit,
   variant: { successMessage, legend, apiMethod },
 }) => {
   const { id } = useParams();
@@ -47,15 +46,37 @@ const MovieForm: React.FC<FormProps> = ({
 
   const handleClose = useHandleClose();
 
+  const [addMovie, { isLoading: isSuccess }] = api.useCreateMovieMutation();
+  const [editMovie, { isLoading: isEditSuccess }] =
+    api.useUpdateMovieMutation();
+
   const handleSubmit = React.useCallback(
-    (fields: BaseMovie, { setStatus }: FormikHelpers<BaseMovie>) =>
-      request(fields)
-        .then((response) => {
-          onSubmit(response);
+    (fields: BaseMovie, { setStatus }: FormikHelpers<BaseMovie>) => {
+      if (legend === "Add movie") {
+        const addMoviePayload = {
+          ...fields,
+          genres: [fields?.genres],
+        };
+        addMovie({
+          ...addMoviePayload,
+        });
+
+        if (isSuccess) {
           setStatus(SUCCESS);
-        })
-        .catch(() => setStatus(ERROR)),
-    [onSubmit, request]
+        }
+
+        return;
+      }
+      // edit movie
+
+      editMovie({
+        ...fields,
+      });
+      if (isEditSuccess) {
+        setStatus(SUCCESS);
+      }
+    },
+    [addMovie, editMovie]
   );
 
   return (

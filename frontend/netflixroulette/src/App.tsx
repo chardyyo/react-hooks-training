@@ -23,7 +23,6 @@ import Header from "./components/Header";
 import GenreFilter from "./components/Genres";
 import SortMovie from "./components/SortMovie";
 import ErrorBoundary from "./components/ErrorBoundary";
-import MovieForm from "./components/Form";
 import { ADD_FORM, EDIT_FORM } from "./utils/constants";
 import { hasGenre, hasSortBy } from "./utils/helpers";
 
@@ -84,14 +83,6 @@ function App() {
     activeMovieId &&
     movies?.data.find(({ id }) => id === Number(activeMovieId));
 
-  const addMovie = () => {
-    console.log("Handle adding new movies");
-  };
-
-  const editMovie = () => {
-    console.log("handle edit movie");
-  };
-
   const removeMovie = () => {
     console.log("handle delete movie");
   };
@@ -145,8 +136,7 @@ function App() {
               element={
                 <ErrorBoundary>
                   <Suspense fallback={<Spinner fullscreen />}>
-                    <MovieForm
-                      onSubmit={addMovie}
+                    <EditorForm
                       variant={ADD_FORM}
                       movies={movies as MovieListResponse}
                     />
@@ -160,7 +150,6 @@ function App() {
                 <ErrorBoundary>
                   <Suspense fallback={<Spinner fullscreen />}>
                     <EditorForm
-                      onSubmit={editMovie}
                       variant={EDIT_FORM}
                       movies={movies as MovieListResponse}
                     />
