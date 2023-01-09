@@ -162,7 +162,7 @@ function App() {
               element={
                 <ErrorBoundary>
                   <Suspense fallback={<Spinner fullscreen />}>
-                    <DeleteForm onSubmit={removeMovie} />
+                    <DeleteForm />
                   </Suspense>
                 </ErrorBoundary>
               }

@@ -79,6 +79,17 @@ export const api = createApi({
           "Content-Type": "application/json",
         },
       }),
+      invalidatesTags: [{ type: "Movies" }],
+    }),
+    deleteMovie: build.mutation<void, string>({
+      query: (id) => ({
+        url: `movies/${id}`,
+        method: "DELETE",
+        headers: {
+          Accept: "*/*",
+        },
+      }),
+      invalidatesTags: [{ type: "Movies" }],
     }),
   }),
 });

@@ -1,12 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Form, Formik, FormikHelpers } from "formik";
 import { BaseMovie, FormVariant, Movie } from "../../types";
-import { API_PATH, DEFAULT_MOVIE, STATUSES } from "../../utils/constants";
+import { DEFAULT_MOVIE, STATUSES } from "../../utils/constants";
 import styles from "./Form.module.scss";
 import validate from "./helper";
-import API from "../../services/api";
-import useAbortRequest from "../../hooks/useAbortRequest";
 import Modal from "../Modal";
 import Dialog from "../Dialog";
 import useHandleClose from "../../hooks/useHandleClose";
@@ -33,12 +31,7 @@ const MovieForm: React.FC<FormProps> = ({
   variant: { successMessage, legend, apiMethod },
 }) => {
   const { id } = useParams();
-
-  const { controller, request } = React.useMemo(
-    () => API.send(apiMethod),
-    [apiMethod]
-  );
-  useAbortRequest(controller);
+  const navigate = useNavigate();
 
   const movie: BaseMovie = id
     ? movies?.data.find((item) => item.id === Number(id)) || DEFAULT_MOVIE
@@ -63,18 +56,23 @@ const MovieForm: React.FC<FormProps> = ({
 
         if (isSuccess) {
           setStatus(SUCCESS);
+        } else {
+          setStatus(ERROR);
         }
 
+        navigate("/search");
         return;
       }
-      // edit movie
 
       editMovie({
         ...fields,
       });
       if (isEditSuccess) {
         setStatus(SUCCESS);
+      } else {
+        setStatus(ERROR);
       }
+      navigate("/search");
     },
     [addMovie, editMovie]
   );

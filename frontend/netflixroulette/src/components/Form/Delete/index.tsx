@@ -1,34 +1,29 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Form, Formik, FormikHelpers } from "formik";
-import useAbortRequest from "../../../hooks/useAbortRequest";
 import useHandleClose from "../../../hooks/useHandleClose";
-import API from "../../../services/api";
 import Dialog from "../../Dialog";
 import styles from "./Delete.module.scss";
 import Spinner from "../../Spinner";
-
-interface DeleteFormProps {
-  onSubmit: (id: number) => void;
-}
+import { api } from "../../../features/movie/service";
 
 const INITIAL_VALUES = {};
 
-const DeleteForm: React.FC<DeleteFormProps> = ({ onSubmit }) => {
-  const { controller, request } = API.delete;
-  useAbortRequest(controller);
-
+const DeleteForm: React.FC = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const handleClose = useHandleClose();
 
-  const handleSubmit = (_: {}, { setStatus }: FormikHelpers<{}>) =>
-    request(Number(id))
-      .then(() => {
-        onSubmit(Number(id));
-        handleClose();
-      })
-      .catch(() => setStatus(true));
+  const [deleteMovie, { isSuccess }] = api.useDeleteMovieMutation();
+
+  const handleSubmit = (_: {}, { setStatus }: FormikHelpers<{}>) => {
+    deleteMovie(id as string);
+    if (isSuccess) {
+      setStatus(true);
+    }
+    navigate("/search");
+  };
 
   return (
     <Dialog onClose={handleClose}>
