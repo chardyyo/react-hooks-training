@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { SortFilters, SortQueries } from "../../types";
 import { MovieListResponse, Movie } from "../../types/movie";
 
 export const api = createApi({
@@ -13,22 +14,21 @@ export const api = createApi({
       query: ({ limit, criteria, order, searchBy, genre }) => {
         // the URL key is the path params that gets appended to the `baseUrl`.
         // http://localhost:4000/movies
-        let requestURL = "movies?limit=15";
+        let requestURL = `movies?limit=${limit}&sortOrder=${
+          order ? order : "desc"
+        }`;
 
-        if (criteria) {
-          requestURL = `${requestURL}&sortBy=${criteria}`;
-        }
+        const sortKey = criteria as SortQueries;
+        const sortBy = SortFilters[sortKey];
 
-        if (order) {
-          requestURL = `${requestURL}&sortBy=release_date&sortOrder=${order}`;
-        }
-
-        if (searchBy) {
-          requestURL = `${requestURL}&searchBy=${searchBy}`;
+        if (sortBy) {
+          requestURL += `&sortBy=${sortBy}`;
         }
 
         if (genre) {
-          requestURL = `${requestURL}&filter=${genre}`;
+          if (genre !== "all") {
+            requestURL += `&filter=${genre}`;
+          }
         }
 
         return {

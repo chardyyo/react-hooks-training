@@ -68,7 +68,10 @@ function App() {
     isError,
     isLoading,
   } = api.useGetMoviesQuery({
-    limit: 15,
+    limit: 21,
+    genre,
+    order: "desc",
+    criteria: sortBy,
   });
 
   const handleCloseMovieDetails = React.useCallback(() => {
