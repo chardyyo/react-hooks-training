@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { MovieListResponse } from "../../types/movie";
+import { SortFilters, SortQueries } from "../../types";
+import { MovieListResponse, Movie } from "../../types/movie";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -13,22 +14,21 @@ export const api = createApi({
       query: ({ limit, criteria, order, searchBy, genre }) => {
         // the URL key is the path params that gets appended to the `baseUrl`.
         // http://localhost:4000/movies
-        let requestURL = "movies?limit=15";
+        let requestURL = `movies?limit=${limit}&sortOrder=${
+          order ? order : "desc"
+        }`;
 
-        if (criteria) {
-          requestURL = `${requestURL}&sortBy=${criteria}`;
-        }
+        const sortKey = criteria as SortQueries;
+        const sortBy = SortFilters[sortKey];
 
-        if (order) {
-          requestURL = `${requestURL}&sortOrder=${order}`;
-        }
-
-        if (searchBy) {
-          requestURL = `${requestURL}&searchBy=${searchBy}`;
+        if (sortBy) {
+          requestURL += `&sortBy=${sortBy}`;
         }
 
         if (genre) {
-          requestURL = `${requestURL}&filter=${genre}`;
+          if (genre !== "all") {
+            requestURL += `&filter=${genre}`;
+          }
         }
 
         return {
@@ -41,19 +41,33 @@ export const api = createApi({
         return response;
       },
     }),
+    getMovieById: build.query<Movie, string>({
+      query: (id) => {
+        return {
+          url: `movies/${id}`,
+        };
+      },
+      providesTags: ["Movies"],
+      // pick out data and prevent nested properties in a hook or selector.
+      transformResponse: (response: Movie) => {
+        return response;
+      },
+    }),
     // build.mutation are used for creating, updating, and deleting data.
-    // sortMovies: build.mutation<MovieListResponse, any>({
-    //   query: ({ criteria, order }) => ({
-    //     url: `movies?sortBy=${criteria}&sortOrder=${order}`,
-    //     method: "GET",
-    //     headers: {
-    //       Accept: "application/json",
-    //     },
-    //     validateStatus: (response, result) => {
-    //       // 304 Not Modified
-    //       return true;
-    //     },
-    //   }),
-    // }),
+    createMovie: build.mutation<MovieListResponse, any>({
+      query: (data) => ({
+        url: "movies",
+        method: "POST",
+        body: data,
+        headers: {
+          Accept: "application/json",
+        },
+        validateStatus: (response, result) => {
+          // 304 Not Modified
+          return true;
+        },
+      }),
+      invalidatesTags: [{ type: "Movies" }],
+    }),
   }),
 });

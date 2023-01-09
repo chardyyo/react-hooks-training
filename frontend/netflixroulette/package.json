@@ -11,6 +11,8 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
     "@types/styled-components": "^5.1.26",
+    "formik": "^2.2.9",
+    "modern-normalize": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
@@ -29,6 +31,7 @@
     "eslint-config-xo-typescript": "^0.55.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "sass": "^1.57.1",
     "typescript": ">=4.4",
     "vite": "^4.0.0"
   }
