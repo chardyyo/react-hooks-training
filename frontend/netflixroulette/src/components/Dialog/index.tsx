@@ -19,7 +19,7 @@ const Dialog: React.FC<DialogProps> = ({ children, onClose }) => {
           className={styles.dialog__closeBtn}
           onClick={onClose}
         >
-          <CloseButton side="22" />
+          <CloseButton side="16" />
         </button>
         {children}
       </div>

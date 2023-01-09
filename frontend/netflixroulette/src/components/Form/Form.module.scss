@@ -79,8 +79,7 @@
     @include mixins.input;
     height: 57px;
     width: 100%;
-    background: #323232f2 url("@src/assets/icons/calendar.svg") 93% 50%
-      no-repeat;
+    background: #323232f2 url("src/assets/icons/calendar.svg") 93% 50% no-repeat;
 
     &::-webkit-inner-spin-button {
       display: none;
