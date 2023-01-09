@@ -1,5 +1,4 @@
 import React, { MouseEvent, KeyboardEvent } from "react";
-import { useNavigate } from "react-router-dom";
 import useQueryString from "../../hooks/useQueryString";
 import { SEARCH_PARAMS } from "../../types";
 import { extractYear } from "../../utils/helpers";
@@ -23,7 +22,7 @@ const Card: React.FC<CardProps> = ({
   poster_path,
   onContextMenu,
 }) => {
-  const navigate = useNavigate();
+  const setQueryString = useQueryString();
 
   const handleOpenMenu = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -31,8 +30,7 @@ const Card: React.FC<CardProps> = ({
   };
 
   const handleClick = () => {
-    const movieDetailsPage = `movies/${id}`;
-    navigate(movieDetailsPage);
+    setQueryString({ [SEARCH_PARAMS.MOVIE]: String(id) });
   };
 
   const handlePressUp = (event: KeyboardEvent<HTMLDivElement>) => {

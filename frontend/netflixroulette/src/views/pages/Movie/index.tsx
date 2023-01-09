@@ -1,49 +1,20 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import Poster from "../../../components/Poster";
-import Spinner from "../../../components/Spinner";
 import Title from "../../../components/Title";
-import { api } from "../../../features/movie/service";
 import {
   capitalize,
   extractYear,
   minutesToHours,
 } from "../../../utils/helpers";
 import styles from "./Movie.module.scss";
-import appStyles from "../../../App.module.scss";
-import GenreFilter from "../../../components/Genres";
-import SortMovie from "../../../components/SortMovie";
-import MovieList from "../MovieList";
-import { MovieListResponse } from "../../../types/movie";
+import { Movie } from "../../../types/movie";
 
 interface MovieDetailsProps {
   onClick: () => void;
+  movie: Movie;
 }
 
-const MovieDetails: React.FC<MovieDetailsProps> = ({ onClick }) => {
-  const { id } = useParams();
-  const {
-    data: movie,
-    isLoading,
-    isError,
-  } = api.useGetMovieByIdQuery(id as string);
-
-  const { data: movies } = api.useGetMoviesQuery({
-    limit: 15,
-    criteria: "",
-    order: "",
-    searchBy: "",
-    genre: "",
-  });
-
-  if (isLoading) {
-    return <Spinner />;
-  }
-
-  if (isError) {
-    return <>Something went wrong</>;
-  }
-
+const MovieDetails: React.FC<MovieDetailsProps> = ({ onClick, movie }) => {
   const genreLine = movie?.genres.map(capitalize).join(" & ");
   const year = extractYear(movie?.release_date as string);
   const duration = minutesToHours(movie?.runtime as number);
@@ -104,18 +75,6 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ onClick }) => {
           </div>
         </div>
       </div>
-      <section className={appStyles.container}>
-        <div className={appStyles.controlsBar}>
-          <GenreFilter />
-          <SortMovie />
-        </div>
-        <hr className={appStyles.hr} />
-        <MovieList
-          loading={isLoading}
-          error={isError}
-          movies={movies as MovieListResponse}
-        />
-      </section>
     </React.Fragment>
   );
 };
