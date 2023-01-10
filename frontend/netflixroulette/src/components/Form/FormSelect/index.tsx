@@ -1,6 +1,6 @@
 import React from "react";
 import { Field, useField } from "formik";
-import styles from "./EditorSelect.module.scss";
+import styles from "./FormSelect.module.scss";
 import FormField from "../FormField";
 import useToggle from "../../../hooks/useToggle";
 import { GENRES } from "../../../utils/constants";

@@ -13,6 +13,7 @@ import Spinner from "../Spinner";
 import EditorTextarea from "./TextArea";
 import { MovieListResponse } from "../../types/movie";
 import { api } from "../../features/movie/service";
+import EditorSelect from "./FormSelect";
 
 type PropsFromRedux = {
   movies: MovieListResponse;
@@ -109,7 +110,7 @@ const MovieForm: React.FC<FormProps> = ({
                         placeholder="https://"
                         className={styles.field__textInput}
                       />
-                      <InputForm
+                      <EditorSelect
                         label="GENRE"
                         placeholder="Select Genre"
                         name="genres"

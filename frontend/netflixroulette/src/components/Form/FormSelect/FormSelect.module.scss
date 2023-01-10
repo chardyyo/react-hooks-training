@@ -48,7 +48,7 @@
 
     &:checked + .dropDown__label::before {
       background-color: #f65261;
-      background-image: url("@src/assets/icons/indicator.svg");
+      background-image: url("src/assets/icons/indicator.svg");
       border: none;
     }
   }
